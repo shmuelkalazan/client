@@ -1,8 +1,62 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { fetchLogin, fetchRegister } from '../../redux/slices/userSlice'
+import cors from "cors"
+import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 function Register() {
+    const [username ,setUsername] = useState("")
+    const [password ,setPassword] = useState("")
+    const [organization , setOrganization] = useState("")
+    const navigate = useNavigate()
+    const dispach = useAppDispatch()
+    const {user} = useAppSelector((state) => state.user)
+  
   return (
-    <div>Register</div>
+    <div className='Register'>
+        <h1 className='card'>register</h1>
+        <div className='card'>
+            <p>username</p>
+            <input type='text' placeholder='username'
+            value={username}
+            onChange={(e)=>{setUsername(e.target.value)}}
+            />
+        </div>
+        <div className='card'>
+            <p>password</p>
+            <input type='password' placeholder='Password'
+            value={password}
+            onChange={(e)=>{setPassword(e.target.value)}}
+            />
+        </div>
+        <div className='card'>
+            <p>orgnzation</p>
+            <select 
+            onChange={(e)=>{setOrganization(e.target.value)}}
+            name="organization" id="">
+                <option value="" disabled selected>Select your option</option>
+                <option value="IDF">IDF</option>
+                <option value="Hezbollah">Hezbollah</option>
+                <option value="Hamas">Hamas</option>
+                <option value="IRGC">IRGC</option>
+                <option value="Houthis">Houthis</option>
+            </select>
+        </div>
+        {organization == "IDF" &&
+        <div className='card'>
+            <p>locatin</p>
+            <select>
+                <option value="North">North</option>
+                <option value="South">South</option>
+                <option value="Center">Center</option>
+                <option value="West Bank">West Bank</option>
+            </select>
+        </div> 
+         }
+        {organization != "IDF" &&<div className='card'></div> }
+
+        {/* <button onClick={() =>dispach(fetchRegister({username ,password}))}>login</button> */}
+    </div>
   )
 }
 
