@@ -15,8 +15,23 @@ function Nav() {
       //alert("Log out successfully")
     }
   return (
-    <div>Nav
-
+    <div className="nav">
+    {user.user ? (
+      <>
+      {/* {console.log(user.user)} */}
+        <NavLink to={"/votes"}>Votes</NavLink>
+        {/* {user.user.isAdmin && (
+          <NavLink to={"/statistics"}>Statistics</NavLink>
+        )} */}
+        <button onClick={() => {logOut()}}>Logout</button>
+      </>
+    ) : (
+      <>
+      {/* {console.log(user.user)} */}
+        <NavLink to={"/login"}>Login</NavLink>
+        <NavLink to={"/register"}>Register</NavLink>
+      </>
+    )}
     </div>
   )
 }
