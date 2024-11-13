@@ -8,10 +8,31 @@ function Register() {
     const [username ,setUsername] = useState("")
     const [password ,setPassword] = useState("")
     const [organization , setOrganization] = useState("")
+    const [fullorganization , setFullOrganization] = useState("")
+    const [location , setLocation] = useState("")
     const navigate = useNavigate()
     const dispach = useAppDispatch()
     const {user} = useAppSelector((state) => state.user)
-  
+
+    useEffect(() => {
+      if (location){
+        setFullOrganization(`${organization} - ${location}`)
+      }
+      if (organization != "IDF"){
+        setFullOrganization(organization)
+        setLocation("")
+      }
+    }, [location ,organization]);
+
+
+    const hendleRegister = ()=>{
+        const fechRegister = () =>{dispach(
+            fetchRegister({username ,password ,organization:fullorganization 
+            ,location}))
+        }
+        fechRegister()
+        navigate('/login')
+    }
   return (
     <div className='Register'>
         <h1 className='card'>register</h1>
@@ -42,10 +63,13 @@ function Register() {
                 <option value="Houthis">Houthis</option>
             </select>
         </div>
-        {organization == "IDF" &&
+        {organization == "IDF"  &&
         <div className='card'>
             <p>locatin</p>
-            <select>
+            <select 
+            onChange={(e)=>{setLocation(e.target.value)}}
+            name="location">
+                <option value="" disabled selected>Select your option</option>
                 <option value="North">North</option>
                 <option value="South">South</option>
                 <option value="Center">Center</option>
@@ -55,7 +79,9 @@ function Register() {
          }
         {organization != "IDF" &&<div className='card'></div> }
 
-        {/* <button onClick={() =>dispach(fetchRegister({username ,password}))}>login</button> */}
+        <button
+          disabled={!username || !password || !organization}
+          onClick={hendleRegister}>register</button>
     </div>
   )
 }

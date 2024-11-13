@@ -12,8 +12,9 @@ const initialState: userState = {
 
 export const fetchRegister = createAsyncThunk('user/register',
     async (user : {username: string, password: string, 
-        organization: Iorganization,location:Ilocation }, thunkApi) => {
+        organization: string,location:string }, thunkApi) => {
         try {
+            console.log(user)
             const res = await fetch("http://localhost:12233/api/user/register", {
                 method: "post",
                 headers: {
@@ -26,7 +27,6 @@ export const fetchRegister = createAsyncThunk('user/register',
             }
             const data = await res.json()
             return data
-            // thunkApi.fulfillWithValue(data)
         } catch (err) {
             thunkApi.rejectWithValue(err)
         }
