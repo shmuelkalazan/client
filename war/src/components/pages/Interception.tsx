@@ -32,14 +32,11 @@ function Launch() {
 
     useEffect(( )=>{
         socket.on('launchedToIsrael',(res)=>{
-            // console.log(reslanch, "bbbbbbbb")
+            console.log(res )
             setResLaunch((prevResLaunch) => [...prevResLaunch, res]);
             console.log('launchedToIsrael')
-            // console.log("lanch toooo " ,user?.location)
         })
-        // socket.on('West Bank',(res)=>{
-        //     setResLaunch((prevResLaunch) => [...prevResLaunch, res]);
-        // })
+
     },[])
 
     useEffect(( )=>{
@@ -47,7 +44,7 @@ function Launch() {
             socket.emit('newLaunch',launch)
         }
     },[fire])
-    const hendleLaunch = (typei:string ,amount:number)=>{
+    const hendleInterception = (launchId:string ,interceptionBy:string,typei:string ,amount:number)=>{
         if (amount <= 0)return
         // console.log(1);
         // dispach(launch(typei))
@@ -75,10 +72,7 @@ return (
                 <p>type : {e.name}</p>
                 <p>time to interception {time}</p>
                 <p>amount : {e.amount}</p>
-                <button 
-                disabled={e.amount <= 0 || to == ""}
-                 onClick={()=>{
-                    hendleLaunch(e.name ,e.amount)}}>launch</button>
+
                </div>)}
             </div>
         </div>
@@ -96,7 +90,9 @@ return (
                 <tr key={index}>
                     <td>{e.type}</td>
                     <td>{time}</td>
-                    <td>{!e.intercepted && <div> <p>active</p><button>x</button></div>}</td>
+                    <td>{!e.intercepted && <div> <p>active</p>
+                    {/* <button onClick={()=>{hendleInterception()}}>x</button> */}
+                    </div>}</td>
                 </tr>)}
             </table>  
         </div>

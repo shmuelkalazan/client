@@ -34,14 +34,10 @@ function Launch() {
     useEffect(( )=>{
 
         socket.on('launchedToIsrael',(res)=>{
-            // console.log("kkkkkkkkkk")
-            // console.log(reslaunch)
+            console.log("kkkkkkkkkk")
             setResLaunch((prevResLaunch) => [...prevResLaunch, res]);
         })
-        // socket.on('West Bank',(res)=>{
-        //     setResLaunch((prevResLaunch) => [...prevResLaunch, res]);
-        //     // console.log("lanch toooo " ,user?.location)
-        // })
+
     },[])
     useEffect(( )=>{
         console.log(reslaunch)
