@@ -7,4 +7,5 @@ export interface IUser {
   password: string;
   organization: Iorganization;
   location: Ilocation;
+  resources:any[]
 }

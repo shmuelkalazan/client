@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { fetchLogin } from '../../redux/slices/userSlice'
 import cors from "cors"
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, NavLink, useNavigate } from 'react-router-dom'
 
 function Login() {
     const [username ,setUsername] = useState("")
@@ -11,6 +11,17 @@ function Login() {
     const dispach = useAppDispatch()
     const {user} = useAppSelector((state) => state.user)
   
+
+
+
+  const hendleLogin = () =>{
+    const login = () => {
+        dispach(fetchLogin({username ,password}))
+    }
+    login()
+    
+  }
+
   return (
     <div className='login'>
         <div className='card'>
@@ -31,7 +42,13 @@ function Login() {
             />
         </div>
         <div className='card'>
-            <button onClick={() =>dispach(fetchLogin({username ,password}))}>login</button>
+            <button 
+            disabled={!username || !password}
+            onClick={hendleLogin}>login</button>
+        </div>
+        <div className='card'></div>
+        <div className={'navlink'}>
+            <p>are you not register yet {<NavLink  to={"/register"}> Register </NavLink>} now</p>
         </div>
     </div>
   )

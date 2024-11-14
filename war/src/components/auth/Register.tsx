@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { fetchLogin, fetchRegister } from '../../redux/slices/userSlice'
 import cors from "cors"
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, NavLink, useNavigate } from 'react-router-dom'
 
 function Register() {
     const [username ,setUsername] = useState("")
@@ -78,10 +78,16 @@ function Register() {
         </div> 
          }
         {organization != "IDF" &&<div className='card'></div> }
+        <div>
+            <button
+            disabled={!username || !password || !organization}
+            onClick={hendleRegister}>
+                register</button>
+        </div>
+        <div className={'navlink'}>
+            <p>are you olready register? {<NavLink  to={"/login"}> login </NavLink>} now</p>
+        </div>
 
-        <button
-          disabled={!username || !password || !organization}
-          onClick={hendleRegister}>register</button>
     </div>
   )
 }

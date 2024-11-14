@@ -48,7 +48,7 @@ export const fetchLogin = createAsyncThunk('user/login',
             }
             const data = await res.json()
             localStorage.setItem("Authorization" ,data.token)
-            // console.log(data);
+            console.log(data);
             return data
         } catch (err) {
             thunkApi.rejectWithValue(err)

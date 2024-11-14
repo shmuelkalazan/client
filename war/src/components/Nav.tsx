@@ -9,27 +9,23 @@ function Nav() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const logOut  = () => {
-      localStorage.removeItem('token')
+      localStorage.removeItem('Authorization')
       dispatch(userSlice.actions.logout())
       navigate("/")
       //alert("Log out successfully")
     }
   return (
     <div className="nav">
-    {user.user ? (
+    {user.user && (
       <>
-      {/* {console.log(user.user)} */}
-        <NavLink to={"/votes"}>Votes</NavLink>
-        {/* {user.user.isAdmin && (
-          <NavLink to={"/statistics"}>Statistics</NavLink>
-        )} */}
-        <button onClick={() => {logOut()}}>Logout</button>
-      </>
-    ) : (
-      <>
-      {/* {console.log(user.user)} */}
-        <NavLink to={"/login"}>Login</NavLink>
-        <NavLink to={"/register"}>Register</NavLink>
+      {/* {console.log(user.user.organization)} */}
+      {user.user.organization.toString().split(' ')[0] === 'IDF' &&
+        <Navigate to={"/interception"}/>
+      }
+      {user.user.organization.toString().split(' ')[0]  != 'IDF' &&
+          <Navigate to={"/launch"}/>
+      }
+        <button className='logout' onClick={() => {logOut()}}>Logout</button>
       </>
     )}
     </div>
