@@ -15,18 +15,23 @@ function Nav() {
     }
   return (
     <div className="nav">
-    {user.user && (
-      <>
-      {/* {console.log(user.user.organization)} */}
-      {user.user.organization.toString().split(' ')[0] === 'IDF' &&
-        <Navigate to={"/interception"}/>
-      }
-      {user.user.organization.toString().split(' ')[0]  != 'IDF' &&
-          <Navigate to={"/launch"}/>
-      }
+        {<div>
+            {
+
+        user.user && (
+            <>
+            {/* {console.log(user.user.organization)} */}
+            {user.user.organization.toString().split(' ')[0] === 'IDF' &&
+                <Navigate to={"/interception"}/>
+            }
+            {user.user.organization.toString().split(' ')[0]  != 'IDF' &&
+                <Navigate to={"/launch"}/>
+            }
+            </>
+            ) }
+        </div>
+        }
         <button className='logout' onClick={() => {logOut()}}>Logout</button>
-      </>
-    ) }
     </div>
   )
 }

@@ -63,8 +63,11 @@ const userSlice = createSlice({
         logout:(state) => {
             state.user = null
         },
-        // launch:(state) => {
-        //      = null
+        // tolaunch:(state ,action) => {
+        //     console.log(action.payload)
+        //     const res  = state.user?.resources.find((res)=> res.name == action.payload) 
+        //     res.amount -= 1
+        //     console.log(res.amount) 
         // },
 
     },

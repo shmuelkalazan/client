@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { Navigate, NavLink, useNavigate } from 'react-router-dom'
 import { socket } from '../../main'
-import { Ilanch } from '../../types/launch/launch'
 import data from '../../data/missiles.json'
-
+import { useDispatch } from 'react-redux'
 
 function Launch() {
     const [launch ,setLaunch] = useState<any>(null)
@@ -14,6 +13,7 @@ function Launch() {
     const [fire ,setFire] = useState<number>(0)
     const [time ,setTime] = useState<number>(0)
     const {user} = useAppSelector((state) => state.user)
+    const dispach = useAppDispatch()
     
     useEffect(( )=>{
         const missiles = data.find((miss) => miss.name === type);
@@ -29,22 +29,35 @@ function Launch() {
             to,
             organizationId:user?._id
         })
-        // getSpeedByName(type)
-        // console.log(type)
     },[to ,type])
     
-    socket.on('launchedToIsrael',(reslanch)=>{
-        setResLaunch([...reslaunch , reslanch])
-        // console.log(reslanch)
-        console.log('launchedToIsrael')
-    })
+    useEffect(( )=>{
+
+        socket.on('launchedToIsrael',(res)=>{
+            // console.log("kkkkkkkkkk")
+            // console.log(reslaunch)
+            setResLaunch((prevResLaunch) => [...prevResLaunch, res]);
+        })
+        // socket.on('West Bank',(res)=>{
+        //     setResLaunch((prevResLaunch) => [...prevResLaunch, res]);
+        //     // console.log("lanch toooo " ,user?.location)
+        // })
+    },[])
+    useEffect(( )=>{
+        console.log(reslaunch)
+    },[reslaunch])
+
+
     useEffect(( )=>{
         if (fire >= 1) {
             socket.emit('newLaunch',launch)
         }
-        // console.log(launch)
     },[fire])
     const hendleLaunch = (typei:string ,amount:number)=>{
+        if (amount <= 0)return
+        // console.log(1);
+        // dispach(tolaunch(typei))
+        // console.log(2);
         setType(typei)
         setLaunch({
             type :typei,
@@ -53,7 +66,6 @@ function Launch() {
             organizationId:user?._id
         }) 
         setFire(fire +1)
-        if (amount <= 0)return
         // console.log(launch)    
     }
  
@@ -74,7 +86,7 @@ return (
                     <option value="West Bank">West Bank</option>
                 </select>
             </div>
-            <div className='rocket'>{user?.resources.map((e) => <div key={e.resources} className='in_rocket'>
+            <div className='rocket'>{user?.resources.map((e ,index) => <div key={index} className='in_rocket'>
                 <p>type : {e.name}</p>
                 <p>amount : {e.amount}</p>
                 <button 
@@ -93,17 +105,16 @@ return (
                     <th>time to hit</th>
                     <th>status</th>
                 </tr>
-                {reslaunch && reslaunch.map((e)=>
-                <tr>
+                {reslaunch && reslaunch.map((e ,index)=>
+                
+                <tr key={index}>
                     <td>{e.type}</td>
                     <td>{time}</td>
                     <td>{!e.intercepted && <p>active</p>}</td>
                 </tr>)}
             </table>  
         </div>
-
         </div>
-        
     </div>
   )
 }

@@ -31,7 +31,7 @@ function Register() {
             ,location}))
         }
         fechRegister()
-        // navigate('/login')
+        navigate('/login')
     }
   return (
     <div className='Register'>
