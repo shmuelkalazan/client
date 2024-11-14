@@ -12,7 +12,6 @@ function Nav() {
       localStorage.removeItem('Authorization')
       dispatch(userSlice.actions.logout())
       navigate("/")
-      //alert("Log out successfully")
     }
   return (
     <div className="nav">
@@ -27,7 +26,7 @@ function Nav() {
       }
         <button className='logout' onClick={() => {logOut()}}>Logout</button>
       </>
-    )}
+    ) }
     </div>
   )
 }

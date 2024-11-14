@@ -31,7 +31,7 @@ function Register() {
             ,location}))
         }
         fechRegister()
-        navigate('/login')
+        // navigate('/login')
     }
   return (
     <div className='Register'>
@@ -81,7 +81,8 @@ function Register() {
         <div>
             <button
             disabled={!username || !password || !organization}
-            onClick={hendleRegister}>
+            onClick={hendleRegister}
+            >
                 register</button>
         </div>
         <div className={'navlink'}>

@@ -62,7 +62,11 @@ const userSlice = createSlice({
     reducers: {
         logout:(state) => {
             state.user = null
-        }
+        },
+        // launch:(state) => {
+        //      = null
+        // },
+
     },
     extraReducers: (builder: ActionReducerMapBuilder<userState>) => {
       builder.addCase(fetchLogin.pending, (state, action)=>{

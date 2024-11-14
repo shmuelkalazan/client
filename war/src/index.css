@@ -82,6 +82,9 @@ button:focus-visible {
   left: 10px;
 
 }
+.main{
+  height: 500px;
+}
 
 .launch{
   height: 600px;

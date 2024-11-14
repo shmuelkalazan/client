@@ -3,15 +3,24 @@ import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { Navigate, NavLink, useNavigate } from 'react-router-dom'
 import { socket } from '../../main'
 import { Ilanch } from '../../types/launch/launch'
+import data from '../../data/missiles.json'
+
 
 function Launch() {
     const [launch ,setLaunch] = useState<any>(null)
     const [to ,setTo] = useState<string | undefined>('')
     const [type ,setType] = useState<string | undefined>('')
-
-    // const navigate = useNavigate()
-    // const dispach = useAppDispatch()
+    const [reslaunch ,setResLaunch] = useState<any[]>([])
+    const [fire ,setFire] = useState<number>(0)
+    const [time ,setTime] = useState<number>(0)
     const {user} = useAppSelector((state) => state.user)
+    
+    useEffect(( )=>{
+        const missiles = data.find((miss) => miss.name === type);
+        if (missiles){
+            setTime(missiles!.speed)
+        }
+    },[type])
 
     useEffect(( )=>{
         setLaunch({
@@ -20,26 +29,32 @@ function Launch() {
             to,
             organizationId:user?._id
         })
-        console.log(launch)
-    },[user ,to ,type])
-
-   socket.on('launchedToIsrael',()=>{
+        // getSpeedByName(type)
+        // console.log(type)
+    },[to ,type])
+    
+    socket.on('launchedToIsrael',(reslanch)=>{
+        setResLaunch([...reslaunch , reslanch])
+        // console.log(reslanch)
         console.log('launchedToIsrael')
     })
-    const hendleLaunch = (type:string ,amount:number)=>{
-
-        setType(type) 
+    useEffect(( )=>{
+        if (fire >= 1) {
+            socket.emit('newLaunch',launch)
+        }
+        // console.log(launch)
+    },[fire])
+    const hendleLaunch = (typei:string ,amount:number)=>{
+        setType(typei)
         setLaunch({
-            type ,
+            type :typei,
             orgLaunche:user?.organization.split(' ')[0],
             to,
             organizationId:user?._id
-        })
-
+        }) 
+        setFire(fire +1)
         if (amount <= 0)return
-        console.log(launch)
-        socket.emit('newLaunch',launch)
-         
+        // console.log(launch)    
     }
  
 return (
@@ -69,6 +84,7 @@ return (
                </div>)}
             </div>
         </div>
+        <div className='main'>
         <div>launch rockets</div>
         <div>
             <table>
@@ -77,20 +93,14 @@ return (
                     <th>time to hit</th>
                     <th>status</th>
                 </tr>
+                {reslaunch && reslaunch.map((e)=>
                 <tr>
-                    <td>Alfreds Futterkiste</td>
-                    <td>Maria Anders</td>
-                    <td>Germany</td>
-                </tr>
-                <tr>
-                    <td>Centro comercial Moctezuma</td>
-                    <td>Francisco Chang</td>
-                    <td>Mexico</td>
-                </tr>
-            </table>
-   
+                    <td>{e.type}</td>
+                    <td>{time}</td>
+                    <td>{!e.intercepted && <p>active</p>}</td>
+                </tr>)}
+            </table>  
         </div>
-        <div className='main'>
 
         </div>
         
